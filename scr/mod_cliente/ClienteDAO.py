@@ -3,8 +3,6 @@ from mod_cliente.Cliente import Cliente
 
 router = APIRouter()
 
-# Criar as rotas/endpoints: GET, POST, PUT, DELETE
-
 # import da persistência
 import db
 from mod_cliente.ClienteModel import ClienteDB
