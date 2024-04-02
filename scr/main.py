@@ -8,11 +8,6 @@ from mod_produto import ProdutoDAO
 
 app = FastAPI()
 
-# rota padrão
-@app.get("/")
-def root():
-    return {"detail":"API Pastelaria", "Swagger UI": "http://127.0.0.1:8000/docs", "ReDoc": "http://127.0.0.1:8000/redoc" }
-
 # mapeamento das rotas/endpoints
 app.include_router(FuncionarioDAO.router)
 app.include_router(ClienteDAO.router)
@@ -21,6 +16,11 @@ app.include_router(ProdutoDAO.router)
 # cria, caso não existam, as tabelas de todos os modelos que encontrar na aplicação (importados)
 import db
 db.criaTabelas()
+
+# rota padrão
+@app.get("/")
+def root():
+    return {"detail":"API Pastelaria", "Swagger UI": "http://127.0.0.1:8000/docs", "ReDoc": "http://127.0.0.1:8000/redoc" }
 
 if __name__ == "__main__":
 
