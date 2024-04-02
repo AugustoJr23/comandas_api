@@ -9,10 +9,10 @@ POST http://127.0.0.1:8000/cliente/ HTTP/1.1
 content-type: application/json
 
 {
-"nome" : "Cliente otário",
+"nome" : "Augusto Francisco Velho Lima Junior",
 "cpf" : "01923874656",
 "telefone" : "49988234567",
-"senha" : "zezin",
+"senha" : "1234",
 "matricula" : "654321",
 "grupo" : 1
 }
