@@ -1,16 +1,21 @@
 from fastapi import APIRouter
 from mod_cliente.Cliente import Cliente
 
-router = APIRouter()
-
 # import da persistência
 import db
 from mod_cliente.ClienteModel import ClienteDB
 
-router = APIRouter()
+# import da segurança
+from typing import Annotated
+from fastapi import Depends
+from security import get_current_active_user, User
+
+# dependências de forma global
+router = APIRouter( dependencies=[Depends(get_current_active_user)] )
+
 # Criar as rotas/endpoints: GET, POST, PUT, DELETE
 
-@router.get("/funcionario/", tags=["Funcionário"])
+@router.get("/cliente/", tags=["Cliente"])
 def get_cliente():
     try:
         session = db.Session()
@@ -157,3 +162,21 @@ def put_cliente(id: int, cliente: Cliente):
 @router.delete("/cliente/{id}", tags=["Cliente"])
 def delete_cliente(id: int):
     return {"msg": "delete executado"}, 201
+
+### Security
+@router.get("/cliente/", tags=["Cliente"])
+def get_cliente( current_user:Annotated[User, Depends(get_current_active_user)], ):
+    try:
+        session = db.Session()
+
+        # busca todos
+        dados = session.query(ClienteDB).all()
+
+        print(current_user)
+
+        return dados, 200
+
+    except Exception as e:
+        return {"erro": str(e)}, 400
+    finally:
+        session.close()

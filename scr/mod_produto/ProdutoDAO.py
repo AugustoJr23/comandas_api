@@ -1,13 +1,18 @@
 from fastapi import APIRouter
 from mod_produto.Produto import Produto
 
-router = APIRouter()
-
 # import da persistência
 import db
 from mod_produto.ProdutoModel import ProdutoDB
 
-router = APIRouter()
+# import da segurança
+from typing import Annotated
+from fastapi import Depends
+from security import get_current_active_user, User
+
+# dependências de forma global
+router = APIRouter( dependencies=[Depends(get_current_active_user)] )
+
 # Criar as rotas/endpoints: GET, POST, PUT, DELETE
 
 @router.get("/produto/", tags=["Produto"])
@@ -105,6 +110,24 @@ def delete_produto(id: int):
     
     except Exception as e:
         session.rollback()
+        return {"erro": str(e)}, 400
+    finally:
+        session.close()
+
+### Security
+@router.get("/funcionario/", tags=["Funcionário"])
+def get_produto( current_user:Annotated[User, Depends(get_current_active_user)], ):
+    try:
+        session = db.Session()
+
+        # busca todos
+        dados = session.query(ProdutoDB).all()
+
+        print(current_user)
+
+        return dados, 200
+
+    except Exception as e:
         return {"erro": str(e)}, 400
     finally:
         session.close()
