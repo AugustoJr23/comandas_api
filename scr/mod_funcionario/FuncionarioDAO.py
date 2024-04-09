@@ -5,7 +5,14 @@ from mod_funcionario.Funcionario import Funcionario
 import db
 from mod_funcionario.FuncionarioModel import FuncionarioDB
 
-router = APIRouter()
+# import da segurança
+from typing import Annotated
+from fastapi import Depends
+from security import get_current_active_user, User
+
+# dependências de forma global
+router = APIRouter( dependencies=[Depends(get_current_active_user)] )
+
 # Criar as rotas/endpoints: GET, POST, PUT, DELETE
 
 @router.get("/funcionario/", tags=["Funcionário"])
@@ -140,3 +147,22 @@ def cpf_funcionario(cpf: str):
         return {"erro": str(e)}, 400
     finally:
         session.close()
+
+### Security
+@router.get("/funcionario/", tags=["Funcionário"])
+def get_funcionario( current_user:Annotated[User, Depends(get_current_active_user)], ):
+    try:
+        session = db.Session()
+
+        # busca todos
+        dados = session.query(FuncionarioDB).all()
+
+        print(current_user)
+
+        return dados, 200
+
+    except Exception as e:
+        return {"erro": str(e)}, 400
+    finally:
+        session.close()
+
