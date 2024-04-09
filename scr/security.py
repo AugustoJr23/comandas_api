@@ -14,20 +14,21 @@ db_clientes_api = {
         "username": "abc",
         "full_name": "Abc dos Testes",
         "email": "abc@example.com",
-        "password": "410ab0f463f9d740d9f2ce26d526ddc11197a511d0b8fc69dba923c4b5cf76a3",
+        "password": "$2b$12$5lY1RPNbyFHP2bK/JjjY0eyiIJnmxUfUE0OHi81xg2nN1w1NoKznK",
         "disabled": False,
-    },
+},
     "bolinhas": {
         "username": "bolinhas",
         "full_name": "Bolinhas dos Testes",
         "email": "bolinhas@example.com",
-        "password": "410ab0f463f9d740d9f2ce26d526ddc11197a511d0b8fc69dba923c4b5cf76a3",
+        "password": "$2b$12$5lY1RPNbyFHP2bK/JjjY0eyiIJnmxUfUE0OHi81xg2nN1w1NoKznK",
         "disabled": True,
-    },
+},
 }
+
 class Token(BaseModel):
     access_token: str
-    token_tipo: str
+    token_type: str
 
 class TokenData(BaseModel):
     username: str | None = None
@@ -38,8 +39,9 @@ class User(BaseModel):
     full_name: str | None = None
     disabled: bool | None = None
 
-class UserInDB(User):
+class UserInDb(User):
     password: str
+
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto") # cifra da senha do usuário
 
@@ -54,7 +56,7 @@ def get_password_hash(password):
 def get_user(db, username: str):
     if username in db:
         user_dict = db[username]
-        return UserInDB(**user_dict)
+        return UserInDb(**user_dict)
 
 def authenticate_user(fake_db, username: str, password: str):
     user = get_user(fake_db, username)
@@ -67,16 +69,15 @@ def authenticate_user(fake_db, username: str, password: str):
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
     if expires_delta:
-        expire = datetime.now(timezone.utc) + expires_delta
+        expire = datetime.now(tz=timezone.utc) + expires_delta
     else:
-        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
+        expire = datetime.now(tz=timezone.utc) + timedelta(minutes=15)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
-    credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Could not validate credentials",
-headers={"WWW-Authenticate": "Bearer"},)
+    credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Could not validate credentials", headers={"WWW-Authenticate": "Bearer"})
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
@@ -90,24 +91,26 @@ headers={"WWW-Authenticate": "Bearer"},)
         raise credentials_exception
     return user
 
-async def get_current_active_user(current_user: Annotated[User, Depends(get_current_user)],):
+async def get_current_active_user(current_user: Annotated[User, Depends(get_current_user)]):
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
-### Rota de autentucação e geração do token
+### rota de autenticação e geração do token
 from fastapi import APIRouter
 router = APIRouter()
 
 @router.post("/token")
-async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()],) -> Token:
+async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
     user = authenticate_user(db_clientes_api, form_data.username, form_data.password)
     if not user:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect username or password", headers={"WWW-Authenticate": "Bearer"},)
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect username or password", headers={"WWW-Authenticate": "Bearer"})
+
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(data={"sub": user.username}, expires_delta=access_token_expires)
     return Token(access_token=access_token, token_type="bearer")
 
 @router.get("/token/logado", response_model=User)
-async def read_users_me(current_user: Annotated[User, Depends(get_current_active_user)],):
+async def read_users_me(current_user: Annotated[User, Depends(get_current_active_user)]):
     return current_user
+
