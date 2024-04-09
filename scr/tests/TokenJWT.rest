@@ -1,0 +1,5 @@
+### ao logar, gera um token que deve ser usado para acessar as rotas da API
+curl -X 'POST' 'http://127.0.0.1:8000/token' \
+-H 'accept: application/json' \
+-H 'Content-Type: application/x-www-form-urlencoded' \
+-d 'username=abc&password=bolinhas&grant_type=&scope=&client_id=&client_secret='

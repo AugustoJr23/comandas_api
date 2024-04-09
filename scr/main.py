@@ -26,6 +26,7 @@ def root():
 import db
 db.criaTabelas()
 
+
 if __name__ == "__main__":
 
     import uvicorn
