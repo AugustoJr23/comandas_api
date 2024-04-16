@@ -1,18 +1,27 @@
 ### Verbo GET – listar todos
 GET http://localhost:8000/Produto/ HTTP/1.1
+content-type: application/json
+
+{
+    "id_produto": 6,
+    "nome" : "Pastel de banana",
+    "descricao" : "Massa frita com banha animal",
+    "foto" : "307200",
+    "valor_unitario" : 11.52
+}
 
 ### Verbo GET – listar um
 GET http://localhost:8000/Produto/10 HTTP/1.1
 
 ### Verbo POST – adicionar
 POST http://127.0.0.1:8000/Produto/ HTTP/1.1
-
 content-type: application/json
+
 {
-"nome" : "Navalha",
-"descricao" : "Produto altamente perigoso",
-"foto" : "307200",
-"valor_unitario" : 14.52
+    "nome" : "Navalha",
+    "descricao" : "Produto altamente perigoso",
+    "foto" : "307200",
+    "valor_unitario" : 14.52
 }
 
 ### Verbo PUT – atualiza
@@ -20,10 +29,10 @@ PUT http://127.0.0.1:8000/Produto/2 HTTP/1.1
 content-type: application/json
 
 {
-"nome" : "Navalha",
-"descricao" : "Produto altamente amigável",
-"foto" : "307200",
-"valor_unitario" : 31.52
+    "nome" : "Navalha",
+    "descricao" : "Produto altamente amigável",
+    "foto" : "307200",
+    "valor_unitario" : 31.52
 }
 
 ### Verbo DELETE - excluir

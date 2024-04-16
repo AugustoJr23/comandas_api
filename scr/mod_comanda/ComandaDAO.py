@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from mod_comanda.Comanda import Comanda, ComandaProdutos
+
 # import da persistência
 import db
 from mod_comanda.ComandaModel import ComandaDB, ComandaProdutoDB

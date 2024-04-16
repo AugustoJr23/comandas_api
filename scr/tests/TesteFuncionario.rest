@@ -3,6 +3,25 @@ GET http://localhost:8000/funcionario/ HTTP/1.1
 
 ### Verbo GET – listar um
 GET http://localhost:8000/funcionario/10 HTTP/1.1
+content-type: application/json
+
+{
+"nome" : "dsdsdsds",
+"cpf" : "01923874656",
+"telefone" : "49988234567",
+"senha" : "bolinhas",
+"matricula" : "12345",
+"grupo" : 2
+}
+
+{
+"nome" : "Zé Das Batatas",
+"cpf" : "01923874656",
+"telefone" : "49988234567",
+"senha" : "bolinhas",
+"matricula" : "12345",
+"grupo" : 1
+}
 
 ### Verbo POST – adicionar
 POST http://127.0.0.1:8000/funcionario/ HTTP/1.1
