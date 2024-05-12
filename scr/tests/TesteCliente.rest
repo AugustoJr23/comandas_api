@@ -3,18 +3,28 @@ GET http://localhost:8000/cliente/ HTTP/1.1
 
 ### Verbo GET – listar um
 GET http://localhost:8000/cliente/10 HTTP/1.1
+content-type: application/json
+
+{
+    "nome" : "Augusto Francisco Velho Lima Junior",
+    "cpf" : "01923874656",
+    "telefone" : "49988234567",
+    "senha" : "1234",
+    "matricula" : "654321",
+    "grupo" : 1
+}
 
 ### Verbo POST – adicionar
 POST http://127.0.0.1:8000/cliente/ HTTP/1.1
 content-type: application/json
 
 {
-"nome" : "Augusto Francisco Velho Lima Junior",
-"cpf" : "01923874656",
-"telefone" : "49988234567",
-"senha" : "1234",
-"matricula" : "654321",
-"grupo" : 1
+    "nome" : "Augusto Francisco Velho Lima Junior",
+    "cpf" : "01923874656",
+    "telefone" : "49988234567",
+    "senha" : "1234",
+    "matricula" : "654321",
+    "grupo" : 1
 }
 
 ### Verbo PUT – atualiza
@@ -22,12 +32,12 @@ PUT http://127.0.0.1:8000/cliente/2 HTTP/1.1
 content-type: application/json
 
 {
-"nome" : "Cliente teste",
-"cpf" : "12345678909",
-"telefone" : "49898989",
-"senha" : "ddd",
-"matricula" : "852002",
-"grupo" : 2
+    "nome" : "Cliente teste",
+    "cpf" : "12345678909",
+    "telefone" : "49898989",
+    "senha" : "ddd",
+    "matricula" : "852002",
+    "grupo" : 2
 }
 
 ### Verbo DELETE - excluir
