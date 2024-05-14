@@ -68,9 +68,12 @@ def put_funcionario(id: int, f: Funcionario):
     return {
         "msg": "put executado", 
         "id": id, 
-        "nome": f.nome, 
+        "nome": f.nome,
+        "matricula": f.matricula,
         "cpf": f.cpf, 
-        "telefone": f.telefone
+        "telefone": f.telefone,
+        "grupo": f.grupo,
+        "senha": f.senha
         }, 201
 
 @router.put("/funcionario/{id}", tags=["Funcionário"])
@@ -81,11 +84,11 @@ def put_funcionario(id: int, corpo: Funcionario):
         dados = session.query(FuncionarioDB).filter(FuncionarioDB.id_funcionario == id).one()
 
         dados.nome = corpo.nome
+        dados.matricula = corpo.matricula
         dados.cpf = corpo.cpf
         dados.telefone = corpo.telefone
-        dados.senha = corpo.senha
-        dados.matricula = corpo.matricula
         dados.grupo = corpo.grupo
+        dados.senha = corpo.senha
 
         session.add(dados)
         session.commit()

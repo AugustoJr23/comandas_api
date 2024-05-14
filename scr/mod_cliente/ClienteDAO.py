@@ -49,7 +49,7 @@ def post_cliente(corpo: Cliente):
     try:
         session = db.Session()
 
-        dados = ClienteDB(None, corpo.nome, corpo.cpf, corpo.telefone)
+        dados = ClienteDB(None, corpo.nome, corpo.matricula, corpo.cpf, corpo.telefone)
 
         session.add(dados)
         # session.flush()
@@ -63,7 +63,7 @@ def post_cliente(corpo: Cliente):
     finally:
         session.close()
 
-@router.put("/funcionario/{id}", tags=["Funcionário"])
+@router.put("/cliente/{id}", tags=["Cliente"])
 def put_cliente(id: int, f: Cliente):
     return {
         "msg": "put executado", 
@@ -71,9 +71,9 @@ def put_cliente(id: int, f: Cliente):
         "nome": f.nome, 
         "cpf": f.cpf, 
         "telefone": f.telefone
-        }, 201
+    }, 201
 
-@router.put("/funcionario/{id}", tags=["Funcionário"])
+@router.put("/cliente/{id}", tags=["Cliente"])
 def put_cliente(id: int, corpo: Cliente):
     try:
         session = db.Session()
@@ -81,6 +81,7 @@ def put_cliente(id: int, corpo: Cliente):
         dados = session.query(ClienteDB).filter(ClienteDB.id_cliente == id).one()
 
         dados.nome = corpo.nome
+        dados.matricula = corpo.matricula
         dados.cpf = corpo.cpf
         dados.telefone = corpo.telefone
 

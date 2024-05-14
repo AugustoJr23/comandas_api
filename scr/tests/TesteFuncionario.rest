@@ -1,26 +1,37 @@
 ### Verbo GET – listar todos
 GET http://localhost:8000/funcionario/ HTTP/1.1
+content-type: application/json
+
+{
+"nome" : "Zé Das Batatas",
+"matricula" : "12345",
+"cpf" : "01923874656",
+"telefone" : "49988234567",
+"grupo" : 1,
+"senha" : "bolinhas"
+}
+
+{
+"nome" : "dsdsdsds",
+"matricula" : "12345",
+"cpf" : "01923874656",
+"telefone" : "49988234567",
+"grupo" : 2,
+"senha" : "bolinhas"
+}
+
 
 ### Verbo GET – listar um
 GET http://localhost:8000/funcionario/10 HTTP/1.1
 content-type: application/json
 
 {
-"nome" : "dsdsdsds",
-"cpf" : "01923874656",
-"telefone" : "49988234567",
-"senha" : "bolinhas",
-"matricula" : "12345",
-"grupo" : 2
-}
-
-{
 "nome" : "Zé Das Batatas",
+"matricula" : "12345",
 "cpf" : "01923874656",
 "telefone" : "49988234567",
-"senha" : "bolinhas",
-"matricula" : "12345",
-"grupo" : 1
+"grupo" : 1,
+"senha" : "bolinhas"
 }
 
 ### Verbo POST – adicionar
@@ -28,24 +39,33 @@ POST http://127.0.0.1:8000/funcionario/ HTTP/1.1
 content-type: application/json
 
 {
-"nome" : "Abc da Silva",
-"cpf" : "01923874656",
-"telefone" : "49988234567",
-"senha" : "bolinhas",
-"matricula" : "12345",
-"grupo" : 1
+    "nome" : "Abc da Silva",
+    "matricula" : "12345",
+    "cpf" : "01923874656",
+    "telefone" : "49988234567",
+    "grupo" : 1,
+    "senha" : "bolinhas"
+}
+
+{
+    "nome" : "Abc dsdsds",
+    "matricula" : "12546",
+    "cpf" : "01923876556",
+    "telefone" : "49985434567",
+    "grupo" : 1,
+    "senha" : "bolinhas123"
 }
 
 ### Verbo PUT – atualiza
 PUT http://127.0.0.1:8000/funcionario/2 HTTP/1.1
 content-type: application/json
 {
-"nome" : "Bolinhas dos Testes",
-"cpf" : "12345678909",
-"telefone" : "49898989",
-"senha" : "abc",
-"matricula" : "54321",
-"grupo" : 2
+    "nome" : "Bolinhas dos Testes",
+    "matricula" : "54321",
+    "cpf" : "12345678909",
+    "telefone" : "49898989",
+    "grupo" : 2,
+    "senha" : "abc"
 }
 ### Verbo DELETE - excluir
 DELETE http://127.0.0.1:8000/funcionario/3 HTTP/1.1
