@@ -64,19 +64,6 @@ def post_funcionario(corpo: Funcionario):
         session.close()
 
 @router.put("/funcionario/{id}", tags=["Funcionário"])
-def put_funcionario(id: int, f: Funcionario):
-    return {
-        "msg": "put executado", 
-        "id": id, 
-        "nome": f.nome,
-        "matricula": f.matricula,
-        "cpf": f.cpf, 
-        "telefone": f.telefone,
-        "grupo": f.grupo,
-        "senha": f.senha
-        }, 201
-
-@router.put("/funcionario/{id}", tags=["Funcionário"])
 def put_funcionario(id: int, corpo: Funcionario):
     try:
         session = db.Session()

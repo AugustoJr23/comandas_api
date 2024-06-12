@@ -49,7 +49,7 @@ def post_cliente(corpo: Cliente):
     try:
         session = db.Session()
 
-        dados = ClienteDB(None, corpo.nome, corpo.matricula, corpo.cpf, corpo.telefone)
+        dados = ClienteDB(None, corpo.nome, corpo.cpf, corpo.logradouro, corpo.numero, corpo.complemento, corpo.bairro, corpo.cidade, corpo.estado, corpo.cep)
 
         session.add(dados)
         # session.flush()
@@ -63,15 +63,6 @@ def post_cliente(corpo: Cliente):
     finally:
         session.close()
 
-@router.put("/cliente/{id}", tags=["Cliente"])
-def put_cliente(id: int, f: Cliente):
-    return {
-        "msg": "put executado", 
-        "id": id, 
-        "nome": f.nome, 
-        "cpf": f.cpf, 
-        "telefone": f.telefone
-    }, 201
 
 @router.put("/cliente/{id}", tags=["Cliente"])
 def put_cliente(id: int, corpo: Cliente):
@@ -81,9 +72,14 @@ def put_cliente(id: int, corpo: Cliente):
         dados = session.query(ClienteDB).filter(ClienteDB.id_cliente == id).one()
 
         dados.nome = corpo.nome
-        dados.matricula = corpo.matricula
         dados.cpf = corpo.cpf
-        dados.telefone = corpo.telefone
+        dados.logradouro = corpo.logradouro
+        dados.numero = corpo.numero
+        dados.complemento = corpo.complemento
+        dados.bairro = corpo.bairro
+        dados.cidade = corpo.cidade
+        dados.estado = corpo.estado
+        dados.cep = corpo.cep
 
         session.add(dados)
         session.commit()
@@ -97,7 +93,7 @@ def put_cliente(id: int, corpo: Cliente):
         session.close()
 
 @router.delete("/cliente/{id}", tags=["Cliente"])
-def delete_funcionario(id: int):
+def delete_cliente(id: int):
     try:
         session = db.Session()
 
@@ -112,6 +108,8 @@ def delete_funcionario(id: int):
         return {"erro": str(e)}, 400
     finally:
         session.close()
+
+
 
 # verifica se o CPF informado já esta cadastrado, retornado os dados atuais caso já esteja
 @router.get("/cliente/cpf/{cpf}", tags=["Cliente - Valida CPF"])
@@ -128,37 +126,6 @@ def cpf_cliente(cpf: str):
         return {"erro": str(e)}, 400
     finally:
         session.close()
-
-
-
-@router.get("/cliente/", tags=["Cliente"])
-def get_cliente():
-    return {"msg": "get todos executado"}, 200
-
-@router.get("/cliente/{id}", tags=["Cliente"])
-def get_cliente_by_id(id: int):
-    return {"msg": "get um executado"}, 200
-
-@router.post("/cliente/", tags=["Cliente"])
-def post_cliente(cliente: Cliente):
-    return {
-        "msg": "post executado", 
-        "nome": cliente.nome, 
-        "matricula": cliente.matricula, 
-        "cpf": cliente.cpf, 
-        "telefone": cliente.telefone
-    }, 200
-
-@router.put("/cliente/{id}", tags=["Cliente"])
-def put_cliente(id: int, cliente: Cliente):
-    return {
-        "msg": "put executado", 
-        "id": id, 
-        "nome": cliente.nome, 
-        "matricula": cliente.matricula, 
-        "cpf": cliente.cpf, 
-        "telefone": cliente.telefone
-    }, 201
 
 @router.delete("/cliente/{id}", tags=["Cliente"])
 def delete_cliente(id: int):

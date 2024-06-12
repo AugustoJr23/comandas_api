@@ -63,16 +63,16 @@ def post_produto(corpo: Produto):
     finally:
         session.close()
 
-@router.put("/produto/{id}", tags=["Produto"])
-def put_produto(id: int, f: Produto):
-    return {
-        "msg": "put executado", 
-        "id": id, 
-        "nome": f.nome,
-        "descricao": f.descricao,
-        "foto": f.foto, 
-        "valor_unitario": f.valor_unitario
-        }, 201
+#@router.put("/produto/{id}", tags=["Produto"])
+#def put_produto(id: int, f: Produto):
+#    return {
+#        "msg": "put executado", 
+#        "id": id, 
+#        "nome": f.nome,
+#        "descricao": f.descricao,
+#        "foto": f.foto, 
+#        "valor_unitario": f.valor_unitario
+#        }, 201
 
 @router.put("/produto/{id}", tags=["Produto"])
 def put_produto(id: int, corpo: Produto):
@@ -115,7 +115,7 @@ def delete_produto(id: int):
         session.close()
 
 ### Security
-@router.get("/funcionario/", tags=["Funcionário"])
+@router.get("/produto/", tags=["Produto"])
 def get_produto( current_user:Annotated[User, Depends(get_current_active_user)], ):
     try:
         session = db.Session()
